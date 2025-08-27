@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}{{ trail.title }}{% endblock %}
+
+{% block content %}
+<h2>{{ trail.title }}</h2>
+
+<p class="muted">
+    {{ trail.location.name }}
+    • {{ trail.length_km }} km
+    • převýšení {{ trail.elevation_gain_m }} m
+    • {{ trail.get_difficulty_display }}
+</p>
+
+{% if trail.tags.all %}
+    <p>Štítky:
+    {% for tag in trail.tags.all %}
+        <span>#{{ tag.name }}</span>
+    {% endfor %}
+    </p>
+{% endif %}
+
+<hr>
+
+{% if user.is_authenticated %}
+    <p><a href="{% url 'review_create' trail.pk %}">Přidat recenzi</a></p>
+{% else %}
+    <p class="muted">
+    Pro přidání recenze se
+    <a href="{% url 'login' %}?next={% url 'review_create' trail.pk %}">přihlaš</a>.
+    </p> 
+{% endif %}
+
+<h3>Recenze</h3>
+{% if trail.reviews.all %}
+    <ul>
+    {% for r in trail.reviews.all %}
+        <li>
+        <strong>{{ r.user }}</strong> — {{ r.rating }}/5
+        {% if r.comment %} – {{ r.comment }}{% endif %}
+        <span class="muted"> ({{ r.created_at|date:"j.n.Y H:i" }})</span>
+        </li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>Zatím žádné recenze.</p>
+{% endif %}
+
+<p><a href="{% url 'trail_list' %}">← Zpět na seznam tras</a></p>
+{% endblock %}

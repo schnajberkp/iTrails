@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Přidat recenzi – {{ trail.title }}{% endblock %}
+{% block content %}
+<h2>Přidat recenzi</h2>
+<p class="muted">{{ trail.title }}</p>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Uložit</button>
+    <a href="{% url 'trail_detail' trail.pk %}">Zpět</a>
+</form>
+{% endblock %}

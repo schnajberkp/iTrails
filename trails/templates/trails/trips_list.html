@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Moje výlety{% endblock %}
+{% block content %}
+<h2>Moje výlety</h2>
+
+<p><a href="{% url 'trip_create' %}">+ Naplánovat výlet</a></p>
+
+{% if trips %}
+    <ul>
+    {% for t in trips %}
+        <li>
+            <strong>{{ t.date|date:"j.n.Y" }}</strong> — {{ t.trail.title }}
+            {% if t.note %}<span class="muted"> – {{ t.note }}</span>{% endif %}
+        </li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>Nemáš žádné naplánované výlety.</p>
+{% endif %}
+
+<p><a href="{% url 'trail_list' %}">← Zpět na seznam tras</a></p>
+{% endblock %}

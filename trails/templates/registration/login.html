@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Přihlášení{% endblock %}
+
+{% block content %}
+<h2>Přihlášení</h2>
+
+<form method="post" action="{% url 'login' %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    {% if next %}
+    <input type="hidden" name="next" value="{{ next }}">
+    {% endif %}
+    <button type="submit">Přihlásit</button>
+</form>
+
+{% if form.errors %}
+    <p class="muted">Nesprávné jméno nebo heslo.</p>
+{% endif %}
+
+<p class="muted">
+    Nemáš účet? Vytvoř si ho v <a href="/admin/">/admin</a>.
+</p>
+{% endblock %}

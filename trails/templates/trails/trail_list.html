@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Seznam tras{% endblock %}
+{% block content %}
+<h2>Seznam tras</h2>
+{% if trails %}
+    {% for t in trails %}
+    <div class="card">
+        <h3><a href="{% url 'trail_detail' t.pk %}">{{ t.title }}</a></h3>
+        <p class="muted">
+        {{ t.location.name }} • {{ t.length_km }} km • převýšení {{ t.elevation_gain_m }} m • {{ t.get_difficulty_display }}
+        </p>
+        {% if t.tags.all %}
+        <p>Štítky:
+            {% for tag in t.tags.all %}
+                <span>#{{ tag.name }}</span>
+            {% endfor %}
+        </p>
+        {% endif %}
+    </div>
+    {% endfor %}
+{% else %}
+    <p>Zatím tu nejsou žádné trasy.</p>
+{% endif %}
+{% endblock %}
