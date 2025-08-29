@@ -93,9 +93,11 @@ def trail_list_api(request):
     if q:
         qs = qs.filter(Q(title__icontains=q) | Q(location__name__icontains=q))
 
-    difficulty = request.GET.get("difficulty")
-    if difficulty in {"easy", "moderate", "hard"}:
-        qs = qs.filter(difficulty=difficulty)
+    mapping = {"easy":"EASY","moderate":"MODERATE","hard":"HARD",
+            "EASY":"EASY","MODERATE":"MODERATE","HARD":"HARD"}
+    diff = request.GET.get("difficulty")
+    if diff in mapping:
+        qs = qs.filter(difficulty=mapping[diff])
 
     data = [_trail_to_dict(trail) for trail in qs]
     return JsonResponse(data, safe=False)
