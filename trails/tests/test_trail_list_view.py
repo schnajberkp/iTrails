@@ -1,12 +1,14 @@
 import pytest
 from django.urls import reverse
 
+# Test access control and functionality of the "Trail List" view
 @pytest.mark.django_db
 def test_trail_list_status_code(client):
     url = reverse('trail_list')
     resp = client.get(url)
     assert resp.status_code == 200
 
+# Check that the trail list contains the title of a known trail
 @pytest.mark.django_db
 def test_trail_list_contains_trail_title(client, trail):
     url = reverse('trail_list')
